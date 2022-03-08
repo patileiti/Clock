@@ -1,0 +1,37 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#clock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+    background: aliceblue;
+}
+
+button {
+    background: transparent;
+    color: #4752E6;
+    font-weight: bold; 
+    padding: 15px;
+    border: 3px solid #6842FC;
+    margin: 10px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+#out {
+    font-size: 4em;
+    font-weight: bold; 
+    color: #4752E6;
+    height: 70px;
+    width: 218px;
+    text-align: center;
+}
+
+.btn-group {
+    display: flex;
+}
