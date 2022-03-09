@@ -1,6 +1,6 @@
-import { Clock } from "./clock"
+import { Clock } from "./clock.js"
 
-const out: HTMLParagraphElement = document.querySelector("#out")!
+const out: HTMLDivElement = document.querySelector("#out")!
 const start: HTMLButtonElement = document.querySelector("#start")!
 const stop: HTMLButtonElement = document.querySelector("#stop")!
 
@@ -16,5 +16,3 @@ let clock = new Clock((time) => out.innerText = time, digits)
 
 start.addEventListener("click", e => clock.start)
 stop.addEventListener("click", e => clock.stop)
-
-

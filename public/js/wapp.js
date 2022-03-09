@@ -1,4 +1,4 @@
-import { Clock } from "./clock";
+import { Clock } from "./clock.js";
 const out = document.querySelector("#out");
 const start = document.querySelector("#start");
 const stop = document.querySelector("#stop");
