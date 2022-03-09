@@ -10,5 +10,5 @@ const digits = ["[0]", "[1]", "[2]", "[3]", "[4]", "[5]", "[6]", "[7]", "[8]", "
     "[50]", "[51]", "[52]", "[53]", "[54]", "[55]", "[56]", "[57]", "[58]", "[59]",
 ];
 let clock = new Clock((time) => out.innerText = time, digits);
-start.addEventListener("click", e => clock.start);
-stop.addEventListener("click", e => clock.stop);
+start.addEventListener("click", (e) => clock.start());
+stop.addEventListener("click", (e) => clock.stop());
