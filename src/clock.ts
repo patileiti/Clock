@@ -11,6 +11,8 @@ export class Clock {
 
     get digits() {return this.#digits}
 
+    get isRunninng() { return Boolean(this.#interval) }
+
     #validateDigits(digits: string[]) {
         if (digits.length != 60) throw "must contain 60 digits"
         for (const d of digits) {
@@ -23,14 +25,12 @@ export class Clock {
         return this.#digits[date.getHours()] + this.#digits[date.getMinutes()] + this.#digits[date.getSeconds()]
     }
 
-    start() {
-        if (!this.#interval) this.#interval = setInterval(() => this.#intervalFunc(this.#getTime()), 1000)
-    }
-
-    stop() {
+    toggle() {
         if (this.#interval) {
             clearInterval(this.#interval)
             this.#interval = null
+        } else {
+            this.#interval = setInterval(() => this.#intervalFunc(this.#getTime()), 1000)
         }
     }
 }
