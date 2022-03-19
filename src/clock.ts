@@ -1,17 +1,22 @@
+const second = 1000
+
 export class Clock {
-    constructor(intervalFunc: (time: string) => void, digits: string[]) {
+    constructor(intervalFunc: (time: string) => void, digits: string[], includeSeconds: boolean = true) {
         this.#validateDigits(digits)
         this.#intervalFunc = intervalFunc
         this.#digits = digits
+        this.#intervalMs = includeSeconds ? second : second * 60
+        this.#intervalId = null
     }
 
     #intervalFunc:(time: string) => void
     #digits: string[]
-    #interval: number | null = null
+    #intervalId: number | null
+    #intervalMs: number
 
-    get digits() {return this.#digits}
-
-    get isRunninng() { return Boolean(this.#interval) }
+    get digits() { return this.#digits }
+    get isRunninng() { return Boolean(this.#intervalId) }
+    get includeSeconds() { return this.#intervalMs == second }
 
     #validateDigits(digits: string[]) {
         if (digits.length != 60) throw "must contain 60 digits"
@@ -20,17 +25,19 @@ export class Clock {
         }
     }
 
-    #getTime(): string {
-        let date = new Date()
-        return this.#digits[date.getHours()] + this.#digits[date.getMinutes()] + this.#digits[date.getSeconds()]
+    getTime(): string {
+        const date = new Date()
+        let time = this.#digits[date.getHours()] + this.#digits[date.getMinutes()]
+        if (this.includeSeconds) time += this.#digits[date.getSeconds()]
+        return time
     }
 
     toggle() {
-        if (this.#interval) {
-            clearInterval(this.#interval)
-            this.#interval = null
+        if (this.#intervalId) {
+            clearInterval(this.#intervalId)
+            this.#intervalId = null
         } else {
-            this.#interval = setInterval(() => this.#intervalFunc(this.#getTime()), 1000)
+            this.#intervalId = setInterval(() => this.#intervalFunc(this.getTime()), this.#intervalMs)
         }
     }
 }
