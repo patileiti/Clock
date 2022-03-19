@@ -1,13 +1,19 @@
+const second = 1000;
 export class Clock {
-    constructor(intervalFunc, digits) {
+    constructor(intervalFunc, digits, includeSeconds = true) {
         this.#validateDigits(digits);
         this.#intervalFunc = intervalFunc;
         this.#digits = digits;
+        this.#intervalMs = includeSeconds ? second : second * 60;
+        this.#intervalId = null;
     }
     #intervalFunc;
     #digits;
-    #interval = null;
+    #intervalId;
+    #intervalMs;
     get digits() { return this.#digits; }
+    get isRunninng() { return Boolean(this.#intervalId); }
+    get includeSeconds() { return this.#intervalMs == second; }
     #validateDigits(digits) {
         if (digits.length != 60)
             throw "must contain 60 digits";
@@ -16,18 +22,20 @@ export class Clock {
                 throw "no duplicate digits allowed";
         }
     }
-    #getTime() {
-        let date = new Date();
-        return this.#digits[date.getHours()] + this.#digits[date.getMinutes()] + this.#digits[date.getSeconds()];
+    getTime() {
+        const date = new Date();
+        let time = this.#digits[date.getHours()] + this.#digits[date.getMinutes()];
+        if (this.includeSeconds)
+            time += this.#digits[date.getSeconds()];
+        return time;
     }
-    start() {
-        if (!this.#interval)
-            this.#interval = setInterval(() => this.#intervalFunc(this.#getTime()), 1000);
-    }
-    stop() {
-        if (this.#interval) {
-            clearInterval(this.#interval);
-            this.#interval = null;
+    toggle() {
+        if (this.#intervalId) {
+            clearInterval(this.#intervalId);
+            this.#intervalId = null;
+        }
+        else {
+            this.#intervalId = setInterval(() => this.#intervalFunc(this.getTime()), this.#intervalMs);
         }
     }
 }
