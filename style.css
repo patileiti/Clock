@@ -30,6 +30,6 @@ button {
     text-align: center;
 }
 
-.btn-group {
+.clockButtons {
     display: flex;
 }
