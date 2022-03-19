@@ -1,7 +1,8 @@
 import { Clock } from "./clock.js"
 
 const out: HTMLDivElement = document.querySelector("#out")!
-const toggleBtn: HTMLButtonElement = document.querySelector("#toggleBtn")!
+const deleteBtn: HTMLDivElement = document.querySelector("#deleteBtn")!
+const settingsBtn: HTMLDivElement = document.querySelector("#settingsBtn")!
 
 const digits = [   "[0]", "[1]", "[2]", "[3]", "[4]", "[5]", "[6]", "[7]", "[8]", "[9]",
                     "[10]", "[11]", "[12]", "[13]", "[14]", "[15]", "[16]", "[17]", "[18]", "[19]",
@@ -11,11 +12,10 @@ const digits = [   "[0]", "[1]", "[2]", "[3]", "[4]", "[5]", "[6]", "[7]", "[8]"
                     "[50]", "[51]", "[52]", "[53]", "[54]", "[55]", "[56]", "[57]", "[58]", "[59]",
                 ]
 
-let clock = new Clock((time) => out.innerText = time, digits, true)
+let clock = new Clock(updateTime, digits, true)
+clock.toggle()
+updateTime(clock.getTime())
 
-toggleBtn.addEventListener("click", clockToggle)
-
-function clockToggle(e: MouseEvent) {
-    clock.toggle()
-    toggleBtn.textContent = clock.isRunninng ? "⏸️ Pause" : "▶️ Start"
+function updateTime(time: string) {
+    out.innerText = time
 }
